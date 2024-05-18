@@ -166,7 +166,7 @@ class OmegaIrisConfig(PretrainedConfig):
             Custom vision config or dict
         perceiver_config (`IdeficsPerceiverConfig` or `dict`, *optional*):
             Custom perceiver config or dict
-        text_config (`MistralConfig` or `dict`, *optional*):
+        text_config (`OmegaMaizeConfig` or `dict`, *optional*):
             Custom text config or dict for the text model
 
     Example:
@@ -214,14 +214,14 @@ class OmegaIrisConfig(PretrainedConfig):
             self.vision_config = vision_config
 
         if isinstance(text_config, dict):
-            text_config["model_type"] = text_config["model_type"] if "model_type" in text_config else "mistral"
+            text_config["model_type"] = text_config["model_type"] if "model_type" in text_config else "omegamaize"
             text_config = CONFIG_MAPPING[text_config["model_type"]](**text_config)
         elif text_config is None:
             logger.info("text_config is None, using default text config")
-            text_config = CONFIG_MAPPING["mistral"](
+            text_config = CONFIG_MAPPING["omegamaize"](
                 max_position_embeddings=4096 * 8,
                 rms_norm_eps=1e-5,
-                # None in the original configuration_mistral, we set it to the unk_token_id
+                # None in the original configuration_omegamaize, we set it to the unk_token_id
                 pad_token_id=0,
                 tie_word_embeddings=False,
             )

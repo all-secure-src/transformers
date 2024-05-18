@@ -530,6 +530,7 @@ _import_structure = {
     ],
     "models.mistral": ["MistralConfig"],
     "models.mixtral": ["MixtralConfig"],
+    "models.omegamaize": ["OmegaMaizeConfig"],
     "models.mluke": [],
     "models.mobilebert": [
         "MobileBertConfig",
@@ -2451,6 +2452,14 @@ else:
     )
     _import_structure["models.mixtral"].extend(
         ["MixtralForCausalLM", "MixtralForSequenceClassification", "MixtralModel", "MixtralPreTrainedModel"]
+    )
+    _import_structure["models.omegamaize"].extend(
+        [
+            "OmegaMaizeForCausalLM",
+            "OmegaMaizeForSequenceClassification",
+            "OmegaMaizeModel",
+            "OmegaMaizePreTrainedModel",
+        ]
     )
     _import_structure["models.mobilebert"].extend(
         [
@@ -4488,6 +4497,13 @@ else:
             "FlaxMistralPreTrainedModel",
         ]
     )
+    _import_structure["models.omegamaize"].extend(
+        [
+            "FlaxOmegaMaizeForCausalLM",
+            "FlaxOmegaMaizeModel",
+            "FlaxOmegaMaizePreTrainedModel",
+        ]
+    )
     _import_structure["models.mt5"].extend(["FlaxMT5EncoderModel", "FlaxMT5ForConditionalGeneration", "FlaxMT5Model"])
     _import_structure["models.opt"].extend(
         [
@@ -5093,6 +5109,7 @@ if TYPE_CHECKING:
     )
     from .models.mistral import MistralConfig
     from .models.mixtral import MixtralConfig
+    from .models.omegamaize import OmegaMaizeConfig
     from .models.mobilebert import (
         MobileBertConfig,
         MobileBertTokenizer,
@@ -6828,6 +6845,12 @@ if TYPE_CHECKING:
             MixtralModel,
             MixtralPreTrainedModel,
         )
+        from .models.omegamaize import (
+            OmegaMaizeForCausalLM,
+            OmegaMaizeForSequenceClassification,
+            OmegaMaizeModel,
+            OmegaMaizePreTrainedModel,
+        )
         from .models.mobilebert import (
             MobileBertForMaskedLM,
             MobileBertForMultipleChoice,
@@ -8476,6 +8499,11 @@ if TYPE_CHECKING:
             FlaxMistralForCausalLM,
             FlaxMistralModel,
             FlaxMistralPreTrainedModel,
+        )
+        from .models.omegamaize import (
+            FlaxOmegaMaizeForCausalLM,
+            FlaxOmegaMaizeModel,
+            FlaxOmegaMaizePreTrainedModel,
         )
         from .models.mt5 import (
             FlaxMT5EncoderModel,

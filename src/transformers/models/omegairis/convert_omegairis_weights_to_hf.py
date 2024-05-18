@@ -12,7 +12,7 @@ from transformers import (
     OmegaIrisForConditionalGeneration,
     OmegaIrisImageProcessor,
     OmegaIrisProcessor,
-    MistralConfig,
+    OmegaMaizeConfig,
 )
 
 
@@ -79,7 +79,7 @@ def get_config(checkpoint):
     # if checkpoint == "modelpath/omegairis":
     # # We load the config then recreate to use the text_config
     config = AutoConfig.from_pretrained(checkpoint)
-    text_config = MistralConfig(
+    text_config = OmegaMaizeConfig(
         vocab_size=config.vocab_size + config.additional_vocab_size,
         hidden_size=config.hidden_size,
         intermediate_size=config.intermediate_size,

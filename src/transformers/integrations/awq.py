@@ -43,6 +43,12 @@ AWQ_FUSED_MAPPINGS = {
         "use_alibi": False,
         "rope_theta": 1000000.0,
     },
+    "omegamaize": {
+        "attention": ["q_proj", "k_proj", "v_proj", "o_proj"],
+        "mlp": ["gate_proj", "up_proj", "down_proj"],
+        "layernorm": ["input_layernorm", "post_attention_layernorm", "norm"],
+        "use_alibi": False,
+    },
     "llama": {
         "attention": ["q_proj", "k_proj", "v_proj", "o_proj"],
         "mlp": ["gate_proj", "up_proj", "down_proj"],

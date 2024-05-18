@@ -1436,9 +1436,8 @@ OmegaIris_INPUTS_DOCSTRING = r"""
             Whether or not to return a [`~utils.ModelOutput`] instead of a plain tuple.
 """
 
-
 @add_start_docstrings(
-    """OmegaIris model consisting of a SIGLIP vision encoder and Mistral language decoder""",
+    """OmegaIris model consisting of a SIGLIP vision encoder and OmegaMaize language decoder""",
     OmegaIris_START_DOCSTRING,
 )
 class OmegaIrisModel(OmegaIrisPreTrainedModel):

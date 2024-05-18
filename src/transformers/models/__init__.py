@@ -149,6 +149,7 @@ from . import (
     mgp_str,
     mistral,
     mixtral,
+    omegamaize,
     mluke,
     mobilebert,
     mobilenet_v1,

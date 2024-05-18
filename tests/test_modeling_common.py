@@ -4087,7 +4087,7 @@ class ModelTesterMixin:
 
     @require_torch_sdpa
     def test_sdpa_matches_eager_sliding_window(self):
-        WINDOW_ATTENTION_MODELS = ["mistral", "mixtral", "qwen2", "qwen_moe", "starcoder2"]
+        WINDOW_ATTENTION_MODELS = ["mistral", "mixtral", "omegamaize" "qwen2", "qwen_moe", "starcoder2"]
 
         if len(self.all_generative_model_classes) == 0:
             self.skipTest(f"No generative model classes for {self.__class__.__name__}")

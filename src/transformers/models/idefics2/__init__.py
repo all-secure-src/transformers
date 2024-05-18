@@ -18,7 +18,6 @@ from ...utils import OptionalDependencyNotAvailable, _LazyModule, is_torch_avail
 
 _import_structure = {"configuration_idefics2": ["Idefics2Config"]}
 
-
 try:
     if not is_vision_available():
         raise OptionalDependencyNotAvailable()

@@ -439,6 +439,7 @@ _import_structure = {
     "models.ibert": ["IBertConfig"],
     "models.idefics": ["IdeficsConfig"],
     "models.idefics2": ["Idefics2Config"],
+    "models.omegairis": ["OmegaIrisConfig"],
     "models.imagegpt": ["ImageGPTConfig"],
     "models.informer": ["InformerConfig"],
     "models.instructblip": [
@@ -1134,6 +1135,7 @@ else:
     _import_structure["models.grounding_dino"].extend(["GroundingDinoImageProcessor"])
     _import_structure["models.idefics"].extend(["IdeficsImageProcessor"])
     _import_structure["models.idefics2"].extend(["Idefics2ImageProcessor"])
+    _import_structure["models.omegairis"].extend(["OmegaIrisImageProcessor"])
     _import_structure["models.imagegpt"].extend(["ImageGPTFeatureExtractor", "ImageGPTImageProcessor"])
     _import_structure["models.layoutlmv2"].extend(["LayoutLMv2FeatureExtractor", "LayoutLMv2ImageProcessor"])
     _import_structure["models.layoutlmv3"].extend(["LayoutLMv3FeatureExtractor", "LayoutLMv3ImageProcessor"])
@@ -2172,6 +2174,14 @@ else:
             "Idefics2Model",
             "Idefics2PreTrainedModel",
             "Idefics2Processor",
+        ]
+    )
+    _import_structure["models.omegairis"].extend(
+        [
+            "OmegaIrisForConditionalGeneration",
+            "OmegaIrisModel",
+            "OmegaIrisPreTrainedModel",
+            "OmegaIrisProcessor",
         ]
     )
     _import_structure["models.imagegpt"].extend(
@@ -4990,6 +5000,7 @@ if TYPE_CHECKING:
         IdeficsConfig,
     )
     from .models.idefics2 import Idefics2Config
+    from .models.omegairis import OmegaIrisConfig
     from .models.imagegpt import ImageGPTConfig
     from .models.informer import InformerConfig
     from .models.instructblip import (
@@ -5715,6 +5726,7 @@ if TYPE_CHECKING:
         from .models.grounding_dino import GroundingDinoImageProcessor
         from .models.idefics import IdeficsImageProcessor
         from .models.idefics2 import Idefics2ImageProcessor
+        from .models.omegairis import OmegaIrisImageProcessor
         from .models.imagegpt import ImageGPTFeatureExtractor, ImageGPTImageProcessor
         from .models.layoutlmv2 import (
             LayoutLMv2FeatureExtractor,
@@ -6598,6 +6610,12 @@ if TYPE_CHECKING:
             Idefics2Model,
             Idefics2PreTrainedModel,
             Idefics2Processor,
+        )
+        from .models.omegairis import (
+            OmegaIrisForConditionalGeneration,
+            OmegaIrisModel,
+            OmegaIrisPreTrainedModel,
+            OmegaIrisProcessor,
         )
         from .models.imagegpt import (
             ImageGPTForCausalImageModeling,

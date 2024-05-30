@@ -491,6 +491,10 @@ _import_structure = {
         "LlavaNextConfig",
         "LlavaNextProcessor",
     ],
+    "models.omegasparkvision": [
+        "OmegaSparkVisionConfig",
+        "OmegaSparkVisionProcessor",
+    ],
     "models.longformer": [
         "LongformerConfig",
         "LongformerTokenizer",
@@ -1142,6 +1146,7 @@ else:
     _import_structure["models.layoutlmv3"].extend(["LayoutLMv3FeatureExtractor", "LayoutLMv3ImageProcessor"])
     _import_structure["models.levit"].extend(["LevitFeatureExtractor", "LevitImageProcessor"])
     _import_structure["models.llava_next"].append("LlavaNextImageProcessor")
+    _import_structure["models.omegasparkvision"].append("OmegaSparkVisionImageProcessor")
     _import_structure["models.mask2former"].append("Mask2FormerImageProcessor")
     _import_structure["models.maskformer"].extend(["MaskFormerFeatureExtractor", "MaskFormerImageProcessor"])
     _import_structure["models.mobilenet_v1"].extend(["MobileNetV1FeatureExtractor", "MobileNetV1ImageProcessor"])
@@ -2313,6 +2318,12 @@ else:
         [
             "LlavaNextForConditionalGeneration",
             "LlavaNextPreTrainedModel",
+        ]
+    )
+    _import_structure["models.omegasparkvision"].extend(
+        [
+            "OmegaSparkVisionForConditionalGeneration",
+            "OmegaSparkVisionPreTrainedModel",
         ]
     )
     _import_structure["models.longformer"].extend(
@@ -5068,6 +5079,10 @@ if TYPE_CHECKING:
         LlavaNextConfig,
         LlavaNextProcessor,
     )
+    from .models.omegasparkvision import (
+        OmegaSparkVisionConfig,
+        OmegaSparkVisionProcessor,
+    )
     from .models.longformer import (
         LongformerConfig,
         LongformerTokenizer,
@@ -5755,6 +5770,7 @@ if TYPE_CHECKING:
         )
         from .models.levit import LevitFeatureExtractor, LevitImageProcessor
         from .models.llava_next import LlavaNextImageProcessor
+        from .models.omegasparkvision import OmegaSparkVisionImageProcessor
         from .models.mask2former import Mask2FormerImageProcessor
         from .models.maskformer import (
             MaskFormerFeatureExtractor,
@@ -6731,6 +6747,10 @@ if TYPE_CHECKING:
         from .models.llava_next import (
             LlavaNextForConditionalGeneration,
             LlavaNextPreTrainedModel,
+        )
+        from .models.omegasparkvision import (
+            OmegaSparkVisionForConditionalGeneration,
+            OmegaSparkVisionPreTrainedModel,
         )
         from .models.longformer import (
             LongformerForMaskedLM,

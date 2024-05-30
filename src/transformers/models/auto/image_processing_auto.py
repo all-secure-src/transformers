@@ -81,6 +81,7 @@ IMAGE_PROCESSOR_MAPPING_NAMES = OrderedDict(
         ("levit", "LevitImageProcessor"),
         ("llava", "CLIPImageProcessor"),
         ("llava_next", "LlavaNextImageProcessor"),
+        ("omegasparkvision", "OmegaSparkVisionImageProcessor"),
         ("mask2former", "Mask2FormerImageProcessor"),
         ("maskformer", "MaskFormerImageProcessor"),
         ("mgp-str", "ViTImageProcessor"),

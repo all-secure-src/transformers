@@ -131,6 +131,7 @@ from . import (
     llama,
     llava,
     llava_next,
+    omegasparkvision,
     longformer,
     longt5,
     luke,

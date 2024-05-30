@@ -1,18 +1,4 @@
-# coding=utf-8
-# Copyright 2024 the HuggingFace Inc. team. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""PyTorch Llava-NeXT model."""
+"""PyTorch OmegaSparkVision model."""
 
 import math
 from dataclasses import dataclass
@@ -35,11 +21,12 @@ from ...utils import (
     replace_return_docstrings,
 )
 from ..auto import AutoModel, AutoModelForCausalLM
-from .configuration_llava_next import LlavaNextConfig
+from .configuration_omegasparkvision import OmegaSparkVisionConfig
+
 
 logger = logging.get_logger(__name__)
 
-_CONFIG_FOR_DOC = "LlavaNextConfig"
+_CONFIG_FOR_DOC = "OmegaSparkVisionConfig"
 
 
 def get_anyres_image_grid_shape(image_size, grid_pinpoints, patch_size):
@@ -144,11 +131,8 @@ def unpad_image(tensor, original_size):
 
 
 @dataclass
-# Copied from transformers.models.idefics.modeling_idefics.IdeficsCausalLMOutputWithPast with Idefics->LlavaNext
-class LlavaNextCausalLMOutputWithPast(ModelOutput):
+class OmegaSparkVisionCausalLMOutputWithPast(ModelOutput):
     """
-    Base class for LlavaNext causal language model (or autoregressive) outputs.
-
     Args:
         loss (`torch.FloatTensor` of shape `(1,)`, *optional*, returned when `labels` is provided):
             Language modeling loss (for next-token prediction).
@@ -186,9 +170,8 @@ class LlavaNextCausalLMOutputWithPast(ModelOutput):
     image_hidden_states: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# Copied from transformers.models.llava.modeling_llava.LlavaMultiModalProjector with Llava->LlavaNext
-class LlavaNextMultiModalProjector(nn.Module):
-    def __init__(self, config: LlavaNextConfig):
+class OmegaSparkVisionMultiModalProjector(nn.Module):
+    def __init__(self, config: OmegaSparkVisionConfig):
         super().__init__()
 
         self.linear_1 = nn.Linear(config.vision_config.hidden_size, config.text_config.hidden_size, bias=True)
@@ -202,7 +185,7 @@ class LlavaNextMultiModalProjector(nn.Module):
         return hidden_states
 
 
-LLAVA_NEXT_START_DOCSTRING = r"""
+OMEGA_SPARK_VISION_START_DOCSTRING = r"""
     This model inherits from [`PreTrainedModel`]. Check the superclass documentation for the generic methods the
     library implements for all its model (such as downloading or saving, resizing the input embeddings, pruning heads
     etc.)
@@ -212,7 +195,7 @@ LLAVA_NEXT_START_DOCSTRING = r"""
     and behavior.
 
     Parameters:
-        config ([`LlavaNextConfig`] or [`LlavaNextVisionConfig`]):
+        config ([`OmegaSparkVisionConfig`] or [`OmegaSparkVisionVisionConfig`]):
             Model configuration class with all the parameters of the model. Initializing with a config file does not
             load the weights associated with the model, only the configuration. Check out the
             [`~PreTrainedModel.from_pretrained`] method to load the model weights.
@@ -221,21 +204,19 @@ LLAVA_NEXT_START_DOCSTRING = r"""
 
 @add_start_docstrings(
     "The bare LLaMA Model outputting raw hidden-states without any specific head on top.",
-    LLAVA_NEXT_START_DOCSTRING,
+    OMEGA_SPARK_VISION_START_DOCSTRING,
 )
-# Copied from transformers.models.llava.modeling_llava.LlavaPreTrainedModel with Llava->LlavaNext,llava->llava_next
-class LlavaNextPreTrainedModel(PreTrainedModel):
-    config_class = LlavaNextConfig
+
+class OmegaSparkVisionPreTrainedModel(PreTrainedModel):
+    config_class = OmegaSparkVisionConfig
     base_model_prefix = "model"
     supports_gradient_checkpointing = True
-    _no_split_modules = ["LlavaNextVisionAttention"]
+    _no_split_modules = ["OmegaSparkVisionVisionAttention"]
     _skip_keys_device_placement = "past_key_values"
     _supports_flash_attn_2 = True
 
     def _init_weights(self, module):
-        # important: this ported version of LlavaNext isn't meant for training from scratch - only
-        # inference and fine-tuning - so the proper init weights code has been removed - the original codebase
-        # https://github.com/haotian-liu/LLaVA/tree/main/llava_next should serve for that purpose
+        
         std = (
             self.config.initializer_range
             if hasattr(self.config, "initializer_range")
@@ -263,7 +244,7 @@ class LlavaNextPreTrainedModel(PreTrainedModel):
         return self.language_model._supports_sdpa
 
 
-LLAVA_NEXT_INPUTS_DOCSTRING = r"""
+OMEGA_SPARK_VISION_INPUTS_DOCSTRING = r"""
     Args:
         input_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`):
             Indices of input sequence tokens in the vocabulary. Padding will be ignored by default should you provide
@@ -275,8 +256,7 @@ LLAVA_NEXT_INPUTS_DOCSTRING = r"""
             [What are input IDs?](../glossary#input-ids)
         pixel_values (`torch.FloatTensor` of shape `(batch_size, num_channels, image_size, image_size)):
             The tensors corresponding to the input images. Pixel values can be obtained using
-            [`AutoImageProcessor`]. See [`LlavaNextImageProcessor.__call__`] for details. [`LlavaProcessor`] uses
-            [`LlavaNextImageProcessor`] for processing images.
+            [`AutoImageProcessor`]. See [`OmegaSparkVisionImageProcessor.__call__`] for details.
         image_sizes (`torch.LongTensor` of shape `(batch_size, 2)`, *optional*):
             The sizes of the images in the batch, being (height, width) for each image.
         attention_mask (`torch.Tensor` of shape `(batch_size, sequence_length)`, *optional*):
@@ -338,15 +318,15 @@ LLAVA_NEXT_INPUTS_DOCSTRING = r"""
 
 
 @add_start_docstrings(
-    """The LLAVA-NeXT model which consists of a vision backbone and a language model.""",
-    LLAVA_NEXT_START_DOCSTRING,
+    """The OmegaSparkVision model which consists of a vision backbone and a language model.""",
+    OMEGA_SPARK_VISION_START_DOCSTRING,
 )
-class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
-    def __init__(self, config: LlavaNextConfig):
+class OmegaSparkVisionForConditionalGeneration(OmegaSparkVisionPreTrainedModel):
+    def __init__(self, config: OmegaSparkVisionConfig):
         super().__init__(config)
         self.vision_tower = AutoModel.from_config(config.vision_config)
 
-        self.multi_modal_projector = LlavaNextMultiModalProjector(config)
+        self.multi_modal_projector = OmegaSparkVisionMultiModalProjector(config)
         embed_std = 1 / math.sqrt(config.text_config.hidden_size)
         self.image_newline = nn.Parameter(torch.randn(config.text_config.hidden_size, dtype=self.dtype) * embed_std)
 
@@ -368,35 +348,27 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
             raise ValueError(f"{padding_side} is not `left` or `right`.")
         self._padding_side = padding_side
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.get_input_embeddings
     def get_input_embeddings(self):
         return self.language_model.get_input_embeddings()
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.set_input_embeddings
     def set_input_embeddings(self, value):
         self.language_model.set_input_embeddings(value)
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.get_output_embeddings
     def get_output_embeddings(self):
         return self.language_model.get_output_embeddings()
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.set_output_embeddings
     def set_output_embeddings(self, new_embeddings):
         self.language_model.set_output_embeddings(new_embeddings)
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.set_decoder
     def set_decoder(self, decoder):
         self.language_model.set_decoder(decoder)
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.get_decoder
     def get_decoder(self):
         return self.language_model.get_decoder()
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.tie_weights
     def tie_weights(self):
         return self.language_model.tie_weights()
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration.resize_token_embeddings
     def resize_token_embeddings(self, new_num_tokens: Optional[int] = None, pad_to_multiple_of=None) -> nn.Embedding:
         model_embeds = self.language_model.resize_token_embeddings(new_num_tokens, pad_to_multiple_of)
         # update vocab size
@@ -478,8 +450,8 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
             Edge cases:
                 * If tokens are same but image token sizes are different, then cannot infer left or right padding
                 ```python
-                cat_img = Image.open(requests.get("http://images.cocodataset.org/val2017/000000039769.jpg", stream=True).raw)
-                chart_img = Image.open(requests.get("https://github.com/haotian-liu/LLaVA/blob/1a91fc274d7c35a9b50b3cb29c4247ae5837ce39/images/llava_v1_5_radar.jpg?raw=true", stream=True).raw)
+                cat_img = Image.open(requests.get("IMAGE_URL", stream=True).raw)
+                chart_img = Image.open(requests.get("IMAGE_PATH", stream=True).raw)
                 prompts = [
                     "[INST] <image>\nWhat is shown in this image? [/INST]",
                     "[INST] <image>\nWhat is shown in this image? [/INST]",
@@ -508,7 +480,6 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
         ignore_index = ignore_index if ignore_index is not None else self.config.ignore_index
 
         with torch.no_grad():
-            # ! in llava 1.6, number of patches is variable
             num_images = feature_lens.size(0)
             num_image_features, embed_dim = image_features.shape
             if feature_lens.sum() != num_image_features:
@@ -681,8 +652,8 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
         feature_lens = torch.tensor(feature_lens, dtype=torch.long, device=image_features.device)
         return image_features, feature_lens
 
-    @add_start_docstrings_to_model_forward(LLAVA_NEXT_INPUTS_DOCSTRING)
-    @replace_return_docstrings(output_type=LlavaNextCausalLMOutputWithPast, config_class=_CONFIG_FOR_DOC)
+    @add_start_docstrings_to_model_forward(OMEGA_SPARK_VISION_INPUTS_DOCSTRING)
+    @replace_return_docstrings(output_type=OmegaSparkVisionCausalLMOutputWithPast, config_class=_CONFIG_FOR_DOC)
     def forward(
         self,
         input_ids: torch.LongTensor = None,
@@ -699,7 +670,7 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
-    ) -> Union[Tuple, LlavaNextCausalLMOutputWithPast]:
+    ) -> Union[Tuple, OmegaSparkVisionCausalLMOutputWithPast]:
         r"""
         Args:
             labels (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
@@ -710,26 +681,7 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
         Returns:
 
         Example:
-
-        ```python
-        >>> from PIL import Image
-        >>> import requests
-        >>> from transformers import AutoProcessor, LlavaNextForConditionalGeneration
-
-        >>> model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf")
-        >>> processor = AutoProcessor.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf")
-
-        >>> prompt = "[INST] <image>\nWhat is shown in this image? [/INST]"
-        >>> url = "https://www.ilankelman.org/stopsigns/australia.jpg"
-        >>> image = Image.open(requests.get(url, stream=True).raw)
-
-        >>> inputs = processor(text=prompt, images=image, return_tensors="pt")
-
-        >>> # Generate
-        >>> generate_ids = model.generate(**inputs, max_length=30)
-        >>> processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-        "[INST]  \nWhat is shown in this image? [/INST] The image appears to be a radar chart, which is a type of multi-dimensional plot (...)"
-        ```"""
+        """
 
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
         output_hidden_states = (
@@ -831,7 +783,6 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
                 )
 
                 # Filter out only the tokens that can be un-attended, this can happen
-                # if one uses Llava + Fused modules where the cache on the
                 # first iteration is already big enough, or if one passes custom cache
                 valid_indices = non_attended_tokens < extended_attention_mask.size(-1)
                 new_batch_index = batch_index[valid_indices]
@@ -877,7 +828,7 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
             output = (logits,) + outputs[1:]
             return (loss,) + output if loss is not None else output
 
-        return LlavaNextCausalLMOutputWithPast(
+        return OmegaSparkVisionCausalLMOutputWithPast(
             loss=loss,
             logits=logits,
             past_key_values=outputs.past_key_values,
@@ -946,6 +897,5 @@ class LlavaNextForConditionalGeneration(LlavaNextPreTrainedModel):
         )
         return model_inputs
 
-    # Copied from transformers.models.llava.modeling_llava.LlavaForConditionalGeneration._reorder_cache
     def _reorder_cache(self, *args, **kwargs):
         return self.language_model._reorder_cache(*args, **kwargs)
